@@ -1,13 +1,50 @@
 #include "binary_trees.h"
 
-void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
-{
-	size_t height = binary_tree_height(tree);
+/**
+ * levelOder - Traverses the binary tree at a specific level.
+ *
+ * This helper function is used by binary_tree_levelorder
+ * to traverse the binary tree
+ * at a specific level and call a given function for each node value.
+ *
+ * @tree: A pointer to the root node of the binary tree.
+ * @func: A pointer to the function to be called on each node value.
+ * @level: The level at which to traverse the binary tree.
+ */
 
+void levelOder(const binary_tree_t *tree, void (*func)(int), int level)
+{
 	if (tree == NULL || func == NULL)
 		return;
-	func();
+	if (tree == NULL)
+		return;
+	if (level == 1)
+		func(tree->n);
+	else if (level > 1)
+	{
+		levelOder(tree->left, func, level - 1);
+		levelOder(tree->right, func, level - 1);
+	}
+}
 
+/**
+ * binary_tree_levelorder - Performs a level-order traversal on a binary tree.
+ *
+ * This function traverses the binary tree in level-order,
+ * visiting nodes level by level
+ * from left to right. It calls a given function for each node value.
+ *
+ * @tree: A pointer to the root node of the binary tree.
+ * @func: A pointer to the function to be called on each node value.
+ */
+
+void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
+{
+	int level = binary_tree_height(tree);
+	int i;
+
+	for (i = 1; i <= level; i++)
+		levelOder(tree, func, i);
 }
 
 /**
@@ -39,35 +76,3 @@ size_t binary_tree_height(const binary_tree_t *tree)
 	else
 		return (rheight);
 }
-
-/* Write a function that goes through a binary tree using level-order traversal
-
-Prototype: void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int));
-Where tree is a pointer to the root node of the tree to traverse
-And func is a pointer to a function to call for each node. The value in the node must be passed as a parameter to this function.
-If tree or func is NULL, do nothing */
-
-/* ==23445== Memcheck, a memory error detector
-==23445== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
-==23445== Using Valgrind-3.10.1 and LibVEX; rerun with -h for copyright info
-==23445== Command: ./101-lvl
-==23445== 
-       .-------(098)-------.
-  .--(012)--.         .--(402)--.
-(006)     (056)     (256)     (512)
-98
-12
-402
-6
-56
-256
-512
-==23445== 
-==23445== HEAP SUMMARY:
-==23445==     in use at exit: 0 bytes in 0 blocks
-==23445==   total heap usage: 19 allocs, 19 frees, 1,197 bytes allocated
-==23445== 
-==23445== All heap blocks were freed -- no leaks are possible
-==23445== 
-==23445== For counts of detected and suppressed errors, rerun with: -v
-==23445== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0) */
