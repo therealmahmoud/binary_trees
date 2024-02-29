@@ -33,5 +33,5 @@ const binary_tree_t *second)
 		return (second->parent);
 	if (second->parent->parent == first->parent)
 		return (first->parent);
-	return (NULL);
+	return (binary_trees_ancestor(first->parent, second->parent));
 }
