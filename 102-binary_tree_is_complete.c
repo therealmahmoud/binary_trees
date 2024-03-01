@@ -1,35 +1,32 @@
 #include "binary_trees.h"
-
+#include "11-binary_tree_size.c"
+/**
+ * complete - checks if tree is complete or not
+ * @tree: a pointer to the root of the tree
+ * @index: index for right and left child
+ * @count: the size of the tree
+ * Return: 1 if complete 0 if not
+ */
+int complete(const binary_tree_t *tree, int index, int count)
+{
+if (tree == NULL)
+return (1);
+if (index >= count)
+return (0);
+return (complete(tree->left, 2 * index + 1, count) &&
+complete(tree->right, 2 * index + 2, count));
+}
+/**
+ * binary_tree_is_complete - checks if tree is complete or not
+ * @tree: a pointer to the root of the tree
+ * Return: 1 if complete 0 if not
+ */
 int binary_tree_is_complete(const binary_tree_t *tree)
 {
+int count = binary_tree_size(tree);
+int index = 0;
 
+if (tree == NULL)
+return (0);
+return (complete(tree, index, count));
 }
-
-/* Write a function that checks if a binary tree is complete
-
-Prototype: int binary_tree_is_complete(const binary_tree_t *tree);
-Where tree is a pointer to the root node of the tree to check
-If tree is NULL, your function must return 0 */
-
-
-/* alex@/tmp/binary_trees$ gcc -Wall -Wextra -Werror -pedantic binary_tree_print.c 102-main.c 102-binary_tree_is_complete.c 0-binary_tree_node.c 3-binary_tree_delete.c -o 102-complete
-alex@/tmp/binary_trees$ ./102-complete
-       .-------(098)--.
-  .--(012)--.       (128)--.
-(010)     (054)          (402)
-Is 98 complete: 0
-Is 12 complete: 1
-       .-------(098)-------.
-  .--(012)--.         .--(128)--.
-(010)     (054)     (112)     (402)
-Is 98 complete: 1
-            .-------(098)-------.
-       .--(012)--.         .--(128)--.
-  .--(010)     (054)     (112)     (402)
-(008)
-Is 98 complete: 1
-            .------------(098)-------.
-       .--(012)-------.         .--(128)--.
-  .--(010)       .--(054)     (112)     (402)
-(008)          (023)
-Is 98 complete: 0 */
