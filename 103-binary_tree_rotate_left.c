@@ -1,6 +1,16 @@
 #include "binary_trees.h"
 
+binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (NULL);
+	
+	tree->parent = tree->right;
+	tree->right->left = tree;
+	tree->right->parent = NULL;
 
+	return (tree);
+}
 
 /* Write a function that performs a left-rotation on a binary tree
 
